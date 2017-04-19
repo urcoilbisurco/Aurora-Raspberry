@@ -5,9 +5,6 @@ var rpio = require("rpio");
 var sensor=require("node-dht-sensor");
 var schedule = require('node-schedule');
 
-
-
-
 process.on ('SIGINT', () => {
   env.nodes.filter(function(node){return node.type=="switch"}).forEach(function(node){
     rpio.write(node.pin,rpio.LOW);
@@ -42,7 +39,7 @@ function start_temperature_monitoring(node){
 }
 
 
-function init(){ 
+function init(){
   //initialize all the switch nodes
   env.nodes.filter(function(node){return node.type=="switch"}).forEach(function(node){
     topic=env.user_uuid+"/"+node.uuid+"/update"

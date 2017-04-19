@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "load": "forever start index.js",
-    "restart": "npm install && npm run build && forever restart index.js"
+    "restart": "npm install && npm run build && forever restart index.js",
+    "hue_setup":"node scripts/hue_setup.js"
   },
   "author": "Francesco Marassi",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "mqtt": "^2.5.0",
     "node-dht-sensor": "0.0.32",
     "node-schedule": "^1.2.1",
-    "rpio": "^0.9.16"
+    "rpio": "^0.9.16",
+    "huejay": "^1.5.0"
   }
 }
