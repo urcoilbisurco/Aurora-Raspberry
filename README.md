@@ -8,6 +8,10 @@ create an "_env.js" file with inside:
 ```javascript
 module.exports={
   user_uuid:"YOUR USER UUID",
+  hue:{ //use 'npm run hue_setup' to obtain these params
+    bridge:"...",
+    username:"...",
+  },
   nodes:[
     {
       uuid:"Mongo ID of Node",
