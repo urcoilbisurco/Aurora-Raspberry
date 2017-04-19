@@ -32,5 +32,3 @@ Then run
   npm install
   npm run start
 ```
-
-Then visit localhost:3456
