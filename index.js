@@ -36,7 +36,7 @@ function read_temperature(node){
 }
 
 function start_temperature_monitoring(node){
-  var j = schedule.scheduleJob('*/5 * * * *', function(){
+  var j = schedule.scheduleJob('1 * * * *', function(){
     read_temperature(node)
   });
 }
