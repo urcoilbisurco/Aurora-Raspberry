@@ -1,29 +1,29 @@
-let huejay = require('huejay');
+var huejay = require('huejay');
 
-const create_user=(bridge)=>{
-  let client = new huejay.Client({
+const create_user=function(bridge){
+  var client = new huejay.Client({
     host:     bridge.ip,
     port:     80,               // Optional
     username: '', // Optional
     timeout:  15000,            // Optional, timeout in milliseconds (15000 is the default)
   });
   console.log("You have 15 seconds to press the button...")
-  setTimeout(()=>{
-    let user = new client.users.User;
+  setTimeout(function(){
+    var user = new client.users.User;
     // Optionally configure a device type / agent on the user
     user.deviceType = 'aurora'; // Default is 'huejay'
     client.users.create(user)
-      .then(user => {
+      .then(function(user){
         console.log(`New user created - Username: ${user.username}`);
         console.log("------------");
-        console.log("write this in your _env.js file:")
+        console.log("add this in your _env.js file:")
         console.log("hue:{"+'\n'+
                     "   bridge:'"+bridge.ip+"',"+'\n'+
                     "   username:'"+user.username+"'"+'\n'+
                     "}")
         console.log("")
       })
-      .catch(error => {
+      .catch(function(error){
         if (error instanceof huejay.Error && error.type === 101) {
           return console.log(`Link button not pressed. Try again...`);
         }
@@ -33,11 +33,11 @@ const create_user=(bridge)=>{
 }
 
 huejay.discover()
-  .then(bridges => {
-    for (let bridge of bridges) {
+  .then(function(bridges){
+    for (var bridge of bridges) {
       create_user(bridge)
     }
   })
-  .catch(error => {
+  .catch(function(error){
     console.log(`An error occurred: ${error.message}`);
   });

@@ -1,8 +1,8 @@
-let huejay = require('huejay');
-let env=require("../_env.js");
+var huejay = require('huejay');
+var env=require("../_env.js");
 
 var axios = require('axios')
-let client = new huejay.Client({
+var client = new huejay.Client({
   host:     env.hue.bridge,
   port:     80,
   username: env.hue.username,
@@ -16,9 +16,9 @@ axios.get(env.server_url+"/api/v1/state?access_token="+env.user_uuid)
 
 var start_scan=function(server_nodes){
   client.lights.getAll()
-  .then(lights => {
-    let nodes=[]
-    for (let light of lights) {
+  .then(function(lights){
+    var nodes=[]
+    for (var light of lights) {
       //check if any of this lights is already a node
       existing_node=server_nodes.find((node)=>{
         return node.type=="hue" && node.state.hue_id==light.uniqueId
@@ -27,7 +27,7 @@ var start_scan=function(server_nodes){
         //don't do anything, the light is already registered
         //TODO: edit node?
       }else{
-        let node={
+        var node={
           name:light.name,
           type:"hue",
           state:{
@@ -44,8 +44,8 @@ var start_scan=function(server_nodes){
         })
       }
     }
-    let output=[]
-    for(let n of nodes){
+    var output=[]
+    for(var n of nodes){
       output.push("{"+'\n'+
                   "   uuid: '"+n +"'',"+'\n' +
                   "   type:'hue'"+'\n'+
