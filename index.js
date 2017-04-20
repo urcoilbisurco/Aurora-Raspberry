@@ -4,9 +4,7 @@ var client  = mqtt.connect(env.mqtt.server)
 var rpio = require("rpio");
 var sensor=require("node-dht-sensor");
 var schedule = require('node-schedule');
-
-
-
+var hue = require('./utils/hue.js');
 
 process.on ('SIGINT', () => {
   env.nodes.filter(function(node){return node.type=="switch"}).forEach(function(node){
@@ -42,7 +40,7 @@ function start_temperature_monitoring(node){
 }
 
 
-function init(){ 
+function init(){
   //initialize all the switch nodes
   env.nodes.filter(function(node){return node.type=="switch"}).forEach(function(node){
     topic=env.user_uuid+"/"+node.uuid+"/update"
@@ -73,9 +71,15 @@ client.on('message', function (topic, message) {
     return node.uuid==topic.split("/")[1]
   })
   var m=JSON.parse(message)
-  var command= m.open ? rpio.HIGH : rpio.LOW
-  rpio.write(node.pin, command);
-  console.log(node, JSON.parse(message).open)
+  if(node.type=="hue"){
+    hue(m)
+  }else{
+    //normal output type.
+    var command= m.open ? rpio.HIGH : rpio.LOW
+    rpio.write(node.pin, command);
+    console.log(node, JSON.parse(message).open)
+  }
+
 })
 
 
