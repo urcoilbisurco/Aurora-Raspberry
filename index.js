@@ -42,9 +42,13 @@ function start_temperature_monitoring(node){
 
 function init(){
   //initialize all the switch nodes
-  env.nodes.filter(function(node){return node.type=="switch"}).forEach(function(node){
+  env.nodes.filter(function(node){
+	return node.type=="switch" || node.type=="hue";
+  }).forEach(function(node){
     topic=env.user_uuid+"/"+node.uuid+"/update"
-    rpio.open(node.pin, rpio.OUTPUT, rpio.LOW);
+    if(node.pin){
+     rpio.open(node.pin, rpio.OUTPUT, rpio.LOW);
+    }
     client.subscribe(topic)
   })
 
@@ -71,6 +75,7 @@ client.on('message', function (topic, message) {
     return node.uuid==topic.split("/")[1]
   })
   var m=JSON.parse(message)
+  console.log("M",m);
   if(node.type=="hue"){
     hue(m)
   }else{

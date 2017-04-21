@@ -10,6 +10,7 @@ var client = new huejay.Client({
 
 
 module.exports=function(state){
+  console.log("state", state);
   client.lights.getAll()
   .then(function(lights){
     for (var light of lights) {
@@ -20,4 +21,5 @@ module.exports=function(state){
         client.lights.save(light);
       }
     }
-}
+  })
+};
